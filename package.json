@@ -1,6 +1,6 @@
 {
   "name": "@tsxper/service-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ServiceManager is a TypeScript extension to the Service Locator design pattern, that helps with managing application dependencies.",
   "scripts": {
     "test": "jest --runInBand",

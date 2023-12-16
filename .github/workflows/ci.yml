@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'src/**'
+      - 'examples/**'
+      - 'package.json'
 jobs:
   ci:
     runs-on: ubuntu-latest
