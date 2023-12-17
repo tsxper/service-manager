@@ -1,5 +1,11 @@
 # Service-Manager
-ServiceManager is a TypeScript extension to the Service Locator design pattern, that helps with managing application dependencies. 
+
+[![NPM Version](https://img.shields.io/npm/v/@tsxper/service-manager.svg?style=flat-square)](https://www.npmjs.com/package/@tsxper/service-manager)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![NPM Downloads](https://img.shields.io/npm/dt/@tsxper/service-manager.svg?style=flat-square)](https://www.npmjs.com/package/@tsxper/service-manager)
+
+
+`@tsxper/service-manager` is a TypeScript extension to the Service Locator design pattern, that helps with managing application dependencies. 
 
 Service manager can be helpful for apps and services that do not require big frameworks with complex dependency injection setup.
 
@@ -91,6 +97,22 @@ const vault = sm.get('unregistered');
 
 const vault = sm.get('vault'); 
 // vault: VaultService
+```
+
+## Known Issues
+
+TypeScript does not derive literal from a class name.
+
+```JavaScript
+// this code will work
+const serviceName = 'LoggerService';
+const sm = new ServiceManager({[serviceName]: () => new LoggerService()});
+const loggerService = sm.get(serviceName); // serviceName is string literal
+
+// this code will NOT work in TypeScript
+const sm = new ServiceManager({ [Fruit.name]: () => new Fruit(1), 'Article': () => new Article('title') });
+sm.get(Fruit.name).weight; // Fruit.name is a "string" and can't be associated with a concrete service
+// Property 'weight' does not exist on type 'Fruit | Article'.
 ```
 
 ## License
