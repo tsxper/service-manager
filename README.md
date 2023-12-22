@@ -2,6 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@tsxper/service-manager.svg?style=flat-square)](https://www.npmjs.com/package/@tsxper/service-manager)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+![npm type definitions](https://img.shields.io/npm/types/@tsxper/service-manager)
 [![NPM Downloads](https://img.shields.io/npm/dt/@tsxper/service-manager.svg?style=flat-square)](https://www.npmjs.com/package/@tsxper/service-manager)
 
 
@@ -101,7 +102,8 @@ const vault = sm.get('vault');
 
 ## Known Issues
 
-TypeScript does not derive literal from a class name.
+1. Using strings instead of literals.
+Example: TypeScript does not derive literal from a class name.
 
 ```JavaScript
 // this code will work
@@ -113,6 +115,29 @@ const loggerService = sm.get(serviceName); // serviceName is string literal
 const sm = new ServiceManager({ [Fruit.name]: () => new Fruit(1), 'Article': () => new Article('title') });
 sm.get(Fruit.name).weight; // Fruit.name is a "string" and can't be associated with a concrete service
 // Property 'weight' does not exist on type 'Fruit | Article'.
+```
+
+To solve this issue, define a literal property on your class, for example:
+```JavaScript
+class Fruit {
+  static service: 'Fruit' = 'Fruit';
+}
+const sm = new ServiceManager({[Fruit.service]: () => new Fruit()});
+```
+
+2. Retrieve services in JavaScript.
+
+In plain JavaScript, `sm.get('logger')` will not check that 'logger' was set or that 'logger' is associated with Logger service factory. 
+What you can do is to add type guards.
+
+> Note. In VS Code you can enable types check for JavaScript files with adding a line `// @ts-check `;
+
+```JavaScript
+// @ts-check 
+const sm = new ServiceManager({'logger': () => new Logger()});
+const logger = sm.get('logger');
+if (!(logger instanceof Logger)) throw new Error('"logger" is not Logger');
+logger.log();
 ```
 
 ## License

@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 export class VaultService {
   protected url: string;
@@ -8,10 +8,10 @@ export class VaultService {
   }
 
   async getKey(key: string): Promise<string> {
-    const res = await axios.get(this.url, { params: { key } }) as string;
-    if (!res) {
-      throw new Error(`Empty response for key ${key}`);
-    }
-    return res;
+    // const res = await axios.get(this.url, { params: { key } }) as string;
+    // if (!res) {
+    //   throw new Error(`Empty response for key ${key}`);
+    // }
+    return '';
   }
 }

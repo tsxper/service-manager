@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { LoggerService } from './LoggerService';
 import { VaultService } from './VaultService';
 
@@ -33,14 +33,14 @@ export class DownstreamService {
   }
 
   protected async send(data: Record<string, unknown>[]): Promise<void> {
-    await axios.post(
-      this.url,
-      { data },
-      {
-        headers: {
-          Authorization: "Bearer " + await this.getToken(),
-        }
-      }
-    );
+    // await axios.post(
+    //   this.url,
+    //   { data },
+    //   {
+    //     headers: {
+    //       Authorization: "Bearer " + await this.getToken(),
+    //     }
+    //   }
+    // );
   }
 }
