@@ -5,6 +5,7 @@ export class ServiceManager<T extends FactoriesMap> implements ServiceLocatorInt
   protected static cache: Map<string, unknown> = new Map();
 
   protected factories: T;
+  protected isCacheEnabled = true;
 
   constructor(factories: T, resetCache = true) {
     resetCache && this.cleanCache();
@@ -36,7 +37,7 @@ export class ServiceManager<T extends FactoriesMap> implements ServiceLocatorInt
     if (!factory) {
       throw new Error(`Factory was not set for service: "${key}"`);
     }
-    if (!recreate) {
+    if (this.isCacheEnabled && !recreate) {
       const cache = this.getCache();
       if (!cache.has(key)) {
         cache.set(key, factory(this));
@@ -57,6 +58,14 @@ export class ServiceManager<T extends FactoriesMap> implements ServiceLocatorInt
 
   cleanCache(): void {
     this.getCache().clear();
+  }
+
+  disableCache(): void {
+    this.isCacheEnabled = false;
+  }
+
+  enableCache(): void {
+    this.isCacheEnabled = true;
   }
 
   protected getCache(): Map<string, unknown> {

@@ -101,4 +101,15 @@ describe('ServiceManager', () => {
     expect(i_30.weight).toBe(23);
     expect(i_30.name).toBe('apples');
   });
+
+  it('disable/enable cache', () => {
+    class Fruit {
+      constructor(public weight: number) { }
+    }
+    const sm = new ServiceManager({ 'fruit': () => new Fruit(11) });
+    sm.disableCache();
+    expect(sm.get('fruit') !== sm.get('fruit')).toBe(true);
+    sm.enableCache();
+    expect(sm.get('fruit') === sm.get('fruit')).toBe(true);
+  });
 });
