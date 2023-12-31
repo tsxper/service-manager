@@ -77,14 +77,27 @@ See example below.
 const privateInstance = sm.get('logger', true);
 ```
 
-### Clear Services Cache
+#### Disable/Enable Caching
+
+Service instances cache is enabled by default.
+
+> Calling disableCache()/enableCache() does not remove existing cached instances.
+
+```JavaScript
+sm.disableCache();
+sm.enableCache();
+```
+
+#### Clear Services Cache
+
+Call "cleanCache()" method to clear service cache.
 
 Call "destroy()" method to clear service cache and registered factories.
 
 ```JavaScript
-sm.destroy(); // clean cache and registered factories
-// or 
 sm.cleanCache(); // clean cache
+// or 
+sm.destroy(); // clean cache and registered factories
 ```
 
 ## Types Inference

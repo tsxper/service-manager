@@ -1,6 +1,6 @@
 {
   "name": "@tsxper/service-manager",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "TypeScript extension to the Service Locator design pattern, that helps with managing application dependencies.",
   "scripts": {
     "test": "jest --runInBand",

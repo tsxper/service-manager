@@ -19,7 +19,6 @@ clean:
 .PHONY: prepub
 prepub:
 	cp ./package.json ./dist
-	cp ./LICENSE ./dist
 	cp ./README.md ./dist
 	cp ./.npmrc.tpl ./dist/.npmrc
 	cp ./package.module.json ./dist/esm/package.json
