@@ -1,7 +1,7 @@
 import { App } from '../../app/App';
 import { DownstreamService } from '../../app/services/DownstreamService';
 import { VaultService } from '../../app/services/VaultService';
-import { sm } from '../../app/sm';
+import { ServiceManagerType, buildServiceManager } from '../../app/sm';
 
 class VaultFake extends VaultService {
   async getKey(key: string): Promise<string> {
@@ -14,22 +14,35 @@ class DownstreamFake extends DownstreamService {
   }
 }
 
-describe('Examples NodeJS', () => {
-  sm.replace(
-    'vault',
-    () => new VaultFake('http://test/')
-  ).replace(
-    'downstream',
-    async () => {
-      return new DownstreamFake(sm.get('logger'), sm.get('vault'), 'http://test/');
-    }
-  );
+class TestApp extends App {
+  protected sm?: ServiceManagerType;
 
+  protected makeServiceManager() {
+    const useGlobalCache = false;
+    if (!this.sm) this.sm = buildServiceManager(useGlobalCache);
+    return this.sm;
+  }
+
+  public getServiceManager() {
+    return this.makeServiceManager().replace(
+      'vault',
+      () => new VaultFake('http://test/')
+    ).replace(
+      'downstream',
+      async (sm) => {
+        return new DownstreamFake(sm.get('logger'), sm.get('vault'), 'http://test/');
+      }
+    );
+  }
+}
+
+describe('Examples NodeJS', () => {
   it('process data', async () => {
+    const app = new TestApp();
+    const sm = app.getServiceManager();
     const data = [{}, {}, {}];
     const logService = sm.get('logger');
     const mockLogFn = jest.spyOn(logService, 'log').mockImplementation(() => { });
-    const app = new App();
     for (const entry of data) {
       await app.process([entry]);
     }

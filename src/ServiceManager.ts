@@ -6,9 +6,10 @@ export class ServiceManager<T extends FactoriesMap> implements ServiceLocatorInt
 
   protected factories: T;
   protected isCacheEnabled = true;
+  protected cache: Map<string, unknown>;
 
-  constructor(factories: T, resetCache = true) {
-    resetCache && this.cleanCache();
+  constructor(factories: T, useGlobalCache = true) {
+    this.cache = useGlobalCache ? ServiceManager.cache : new Map();
     this.factories = factories;
   }
 
@@ -69,7 +70,6 @@ export class ServiceManager<T extends FactoriesMap> implements ServiceLocatorInt
   }
 
   protected getCache(): Map<string, unknown> {
-    const cache = ServiceManager.cache;
-    return cache;
+    return this.cache;
   }
 }

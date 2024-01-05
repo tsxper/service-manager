@@ -21,11 +21,9 @@ Advantages of using ServiceManager:
 - Doesn't use code generators.
 - Doesn't rely on experimental technology, like decorators.
 
-
-
 ## Examples
 
-See examples in [GitHub](https://github.com/tsxper/service-manager/blob/main/examples).
+See other examples in [GitHub](https://github.com/tsxper/service-manager/blob/main/examples).
 
 With using registered factories you can easily inject required dependencies in your services.
 
@@ -100,6 +98,18 @@ sm.cleanCache(); // clean cache
 sm.destroy(); // clean cache and registered factories
 ```
 
+#### Local vs Global Cache
+ServiceManager supports 2 types of cache: "global" (for runtime) and "local" (for particular app instance).
+Good use case for a "local" cache is tests isolation.
+To control cache type, ServiceManager constructor has a "useGlobalCache" as 2nd parameter (default is "true").
+
+```JavaScript
+const useGlobalCache = false;
+new ServiceManager({...}, useGlobalCache);
+```
+
+See [builder](https://github.com/tsxper/service-manager/blob/main/examples/nodejs/app/sm.ts) example.
+
 ## Types Inference
 
 Types inference for registered services is supported.
@@ -113,7 +123,7 @@ const vault = sm.get('vault');
 // vault: VaultService
 ```
 
-## Known Issues
+## Known Limitations
 
 1. Using strings instead of literals.
 Example: TypeScript does not derive literal from a class name.

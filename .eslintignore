@@ -2,5 +2,6 @@ dist
 .github
 **/*.js
 __tests__
+examples
 *.spec.ts
 *.test.ts
