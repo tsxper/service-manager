@@ -17,6 +17,13 @@ describe('ServiceManager', () => {
     expect(sm.getKeys()).toMatchObject(['key1', 'key2']);
   });
 
+  it('error on existing', async () => {
+    const sm = new ServiceManager({
+      'key1': () => null
+    });
+    expect(() => sm.add('key1', () => null)).toThrow('Service "key1" already exists');
+  });
+
   it('error on unknown', async () => {
     const sm = new ServiceManager({ 'unknown': () => null });
     sm.destroy();
